@@ -1,0 +1,22 @@
+{
+  "name": "webpack-start",
+  "version": "1.0.0",
+  "description": "The webpack project framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dream-wu/webpack-start.git"
+  },
+  "keywords": [
+    "webpack"
+  ],
+  "author": "wumj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dream-wu/webpack-start/issues"
+  },
+  "homepage": "https://github.com/Dream-wu/webpack-start#readme"
+}
