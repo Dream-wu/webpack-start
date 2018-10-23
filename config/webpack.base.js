@@ -12,7 +12,11 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(
-      ['./dist/main.*.js'] 
+      ['dist'], 
+      {
+        root: path.resolve(__dirname, '../'),   //根目录
+        verbose: true,        　　　　　　　　　　//开启在控制台输出信息
+      }
     ),
     new HtmlWebpackPlugin({ 
       template: './src/index.html' 
