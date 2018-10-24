@@ -12,7 +12,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: '[name].[hash:5].bundle.js'
+    filename: 'script/[name].[hash:5].bundle.js'
   },
   resolve: {
     extensions: ['.js', '.json'],
@@ -25,21 +25,13 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
-          //MiniCssExtractPlugin.loader,
+          MiniCssExtractPlugin.loader,
           "css-loader"
         ]
       }
     ]
   },
   plugins: [
-    // new BrowserSyncPlugin({
-    //   host: 'localhost',
-    //   port: 9000,
-    //   proxy: 'http://localhost:9060'
-    // }, {
-    //   reload: false
-    // }),
     new CleanWebpackPlugin(
       ['dist'], 
       {
@@ -48,11 +40,12 @@ module.exports = {
       }
     ),
     new HtmlWebpackPlugin({ 
-      template: './src/index.html' 
+      filename: "index.html",
+      template: "src/index.html"
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css"
+      filename: "style/[name].css",
+      chunkFilename: "style/[id].css"
     })
   ],
   optimization: {
