@@ -8,8 +8,19 @@ const _mode = argv.mode || "development";
 const _modeflag = (_mode == "production" ? true : false);
 const webpackConfig = require(`./webpack.${_mode}.js`);
 // const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const smp = new SpeedMeasurePlugin();
+const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+// const DashboardPlugin = require('webpack-dashboard/plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+// const setTitle = require('node-bash-title');
+// setTitle('wumj的苹果');
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
+}
+const loading = {
+  html:'加载中'
 }
 webpackBase = {
   entry: {
@@ -45,6 +56,12 @@ webpackBase = {
     }
   },
   plugins: [
+    new ProgressBarPlugin(),
+    new WebpackBuildNotifierPlugin({
+      title: "wumj Project Webpack Build",
+      // logo: path.resolve("./img/favicon.png"),
+      suppressSuccess: true
+    }),
     new CleanWebpackPlugin(
       ['dist'], 
       {
@@ -54,12 +71,15 @@ webpackBase = {
     ),
     new HtmlWebpackPlugin({ 
       filename: "index.html",
-      template: "src/index.html"
+      template: "src/index.html",
+      loading
     }),
     new MiniCssExtractPlugin({
       filename: _modeflag ? "styles/[name].[hash:5].css" : "styles/[name].css",
       chunkFilename: _modeflag ? "styles/[id].[hash:5].css" : "styles/[name].css"
-    })
+    }),
+    // new DashboardPlugin()
+    new ManifestPlugin()
   ],
   optimization: {
     splitChunks: {
@@ -71,8 +91,11 @@ webpackBase = {
           enforce: true
         }
       }
+    },
+    runtimeChunk: {
+      name:"runtime"
     }
   }
 }
 
-module.exports = merge(webpackBase, webpackConfig);
+module.exports = smp.wrap(merge(webpackBase, webpackConfig));
